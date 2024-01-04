@@ -71,6 +71,7 @@ class PubchemScreeningDAO:
     min_cid = None
     
     def __init__(self):
+        #.env file location
         load_dotenv("../env/.env")
         self.connection = psycopg2.connect(os.environ['DATABASE_URL'])
         self.get_min_max_cid()

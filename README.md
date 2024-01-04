@@ -4,7 +4,7 @@ by Dao Quang Tung, Do Thi Mai Dung, Nguyen Thanh Cong, Dao Ngoc Nam Hai, Daniel 
 
 *Correspondence: [ngocan@vnu.edu.vn](mailto:ngocan@vnu.edu.vn) (N.N.A)
 
-This repository is the prove of our paper, which has been submitted for publication in Some Journal, doi link.
+This repository is the prove of our paper, which has been submitted for publication in Link.
 
 ### Dependencies and implementation
 
@@ -14,7 +14,7 @@ Run the following command in the repository folder (where `env/*.yml` files is l
 
 ```
 conda env create -f my-rdkit-env.yml -n your_env_name
-conda env create -f diversity-analysis-env.yml -n your_env_name_2
+conda env create -f tmap-env.yml -n your_other_env_name
 ```
 
 Then verify that the new environment was installed correctly:
@@ -30,3 +30,11 @@ DATABASE_URL = postgresql://<host_url>/<database_name>
 ```
 
 ### Project structures
+
+- The source code are available in the src folder.
+- The results of our work is in the results folder.
+
+### Dataset location
+
+- The train, test and validation data are available in the data_for_modeling/train_test_data folder
+- The datasets that we used for screening are available in the data_for_modeling/screening_dataset, if you want the raw data, they are avalible in [this link (8GB after decompress)](https://drive.google.com/file/d/1YIhBD51oWA0s3p-egIHepNb3iZZbXqb1/view?usp=sharing).
