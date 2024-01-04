@@ -23,7 +23,7 @@ Then verify that the new environment was installed correctly:
 conda env list
 ```
 
-Our screening dataset was stored using PostgreSQL database, installation is availible in [PostgreSQL official website](https://www.postgresql.org/). The screening dataset (7GB) is available in Link. After imported the database, create a duplicate of file `env/env.example` and rename it to `.env`, then fill the database URL in the file.
+Our screening dataset was stored using PostgreSQL database, installation is availible in [PostgreSQL official website](https://www.postgresql.org/). The screening dataset is available in [this link (8GB after decompress)](https://drive.google.com/file/d/1YIhBD51oWA0s3p-egIHepNb3iZZbXqb1/view?usp=sharing). After imported the database, create a duplicate of file `env/env.example` and rename it to `.env`, then fill the database URL in the file.
 
 ```
 DATABASE_URL = postgresql://<host_url>/<database_name>
@@ -37,4 +37,4 @@ DATABASE_URL = postgresql://<host_url>/<database_name>
 ### Dataset location
 
 - The train, test and validation data are available in the data_for_modeling/train_test_data folder
-- The datasets that we used for screening are available in the data_for_modeling/screening_dataset, if you want the raw data, they are avalible in [this link (8GB after decompress)](https://drive.google.com/file/d/1YIhBD51oWA0s3p-egIHepNb3iZZbXqb1/view?usp=sharing).
+- The screening dataset is available in the data_for_modeling/screening_dataset, if you want the raw data from database, they are avalible in [this link (8GB after decompress)](https://drive.google.com/file/d/1YIhBD51oWA0s3p-egIHepNb3iZZbXqb1/view?usp=sharing).
