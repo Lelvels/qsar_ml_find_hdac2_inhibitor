@@ -1,0 +1,5 @@
+/output
+*.code-workspace
+*.npy
+.env
+.vscode/
