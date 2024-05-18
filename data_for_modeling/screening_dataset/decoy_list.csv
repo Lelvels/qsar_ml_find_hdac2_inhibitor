@@ -1,0 +1,21 @@
+﻿cid,smiles,molecular_weight,average_distance,note
+"53,325,871",Nc1cccc(-c2csc(NC(=O)CCCCCC(=O)NO)n2)c1,,,Chim mồi
+"24,938,735",CC(C)[C@@H]1NC(=O)[C@]2(C)CSC(=N2)c2csc(n2)CNC(=O)C[C@@H](/C=C/CCS)OC1=O,,,Chim mồi
+"121,405,099",CC1(CCN(CC1)C(=O)N1CCCC1)Nc1ccc(cc1)C(=O)Nc1cc(ccc1N)-c1cccs1,,,Chim mồi
+"151,915,561",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2cc3ccccc3[nH]c2=O)[nH]1,,,Chim mồi
+"151,151,287",CCC(=O)CCCCC[C@H](NC(=O)[C@@H]1CC12CCN(C)CC2)c1ncc(-c2cc3ccccc3nc2OC)[nH]1,,,Chim mồi
+"162,506,896",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2cc3ccc(C4CC4)nc3cc2OC)[nH]1,,,Chim mồi
+"162,662,773",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2ccc3[nH]c4ccccc4c3c2)[nH]1,,,Chim mồi
+"168,298,475",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2ccc3nn(C)cc3c2)[nH]1,,,Chim mồi
+"156,014,230",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1C[C@@]12CCN(C)C2)c1ncc(-c2cc3ccccc3nc2OC)[nH]1,,,Chim mồi
+"162,506,615",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2ccc3nc(OC)ccc3c2)[nH]1,,,Chim mồi
+"162,668,465",COc1cccc(-c2ccc3c(NC(=O)CCCCCCC(=O)NO)n[nH]c3c2)c1,,,Chim mồi
+"156,021,671",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2cc3ccccc3nc2OC)o1,,,Chim mồi
+"72,710,871",O=C(CCCCC[C@H](NC(=O)[C@H]1CCC(=O)N1)C(=O)Nc1cccc(C(F)(F)F)c1)NO,,,Chim mồi
+"162,506,662",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2cn(C)c3ccccc23)[nH]1,,,Chim mồi
+"162,506,864",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2cc3ccc(C4CC4)nc3cc2F)o1,,,Chim mồi
+"121,341,040",CC1(CCN(CC1)C(=O)N1CCOCC1)Nc1ccc(cc1)C(=O)Nc1cc(ccc1N)-c1ccncc1,,,Chim mồi
+"164,609,507",Nc1nc2cc(-c3nn(CCCCCCC(=O)NO)c4ncnc(N)c34)ccc2o1,,,Chim mồi
+"11,700,059",CCC(=O)CCCCC[C@H](NC(=O)Cc1c(C)[nH]c2ccc(OC)cc12)c1ncc(-c2ccccc2)[nH]1,,,Chim mồi
+"153,582,299",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2cc3ccc(C)nc3cc2CC)[nH]1,,,Chim mồi
+"162,506,792",CCC(=O)CCCCC[C@H](NC(=O)[C@H]1CC12CCN(C)CC2)c1ncc(-c2cnc3ncccc3c2)[nH]1,,,Chim mồi

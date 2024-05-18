@@ -20,8 +20,10 @@ from rdkit.Chem import MACCSkeys
 
 """Notification: This file is used to calculate the average distance between a smiles and its 5 nearest-neighbor in the database."""
 
-#Logging init
-logging.basicConfig(filename='../../output/logs/hdac2-average-distance-auto-update.txt', level=logging.INFO)
+#Configs
+logging.basicConfig(filename="/home/mrcong/Code/phamarcy_code/qsar_ml_find_hdac2_inhibitor/results/logs/update_distance_logs.txt", level=logging.INFO)
+train_test_path = "/home/mrcong/Code/phamarcy_code/qsar_ml_find_hdac2_inhibitor/data_for_modeling/train_test_data/new_HDAC2_train_test_data.xlsx"
+env_path = "/home/mrcong/Code/phamarcy_code/qsar_ml_find_hdac2_inhibitor/env/.env"
 
 #Ultis
 class PubchemScreeningDAO:    
@@ -35,13 +37,14 @@ class PubchemScreeningDAO:
         smiles TEXT UNIQUE NOT NULL,
         molecular_weight decimal NOT NULL,
         average_distance float(24) NOT NULL
+        new_average_distance float(24) NOT NULL
     );
     CREATE INDEX IF NOT EXISTS idx_cid ON pubchem_compound_preprocessed (cid);
     """
     SELECT_DATA_BETWEEN_CID = """SELECT * FROM 
-        pubchem_compound_preprocessed WHERE molecular_weight > 200 and cid >= %s and cid <= %s;"""
+        pubchem_compound_preprocessed WHERE molecular_weight >= 200 and molecular_weight <= 700 and cid >= %s and cid <= %s;"""
     
-    INSERT_COMPOUND = "INSERT INTO pubchem_compound_preprocessed (cid, smiles, molecular_weight, average_distance) VALUES (%s, %s, %s, %s);"
+    INSERT_COMPOUND = "INSERT INTO pubchem_compound_preprocessed (cid, smiles, molecular_weight, new_average_distance) VALUES (%s, %s, %s, %s);"
 
     SELECT_FIRST_DATA = "SELECT * FROM pubchem_compound_preprocessed LIMIT %s;"
 
@@ -56,11 +59,11 @@ class PubchemScreeningDAO:
     DELETE_COMPOUND = """DELETE FROM pubchem_compound_preprocessed WHERE cid = %s;"""
 
     UPDATE_COMPOUND = """UPDATE pubchem_compound_preprocessed \
-        SET smiles=%s, molecular_weight=%s, average_distance=%s
+        SET smiles=%s, molecular_weight=%s, new_average_distance=%s
         WHERE cid = %s;"""
     
     UPDATE_AVG_DIST_COMPOUND = """UPDATE pubchem_compound_preprocessed \
-        SET average_distance=%s
+        SET new_average_distance=%s
         WHERE cid = %s;"""
     
     MAX_CID_QUERY = "SELECT MAX(cid) FROM pubchem_compound_preprocessed"
@@ -70,10 +73,11 @@ class PubchemScreeningDAO:
     max_cid = None
     min_cid = None
     
-    def __init__(self):
+    def __init__(self, db_url):
         #.env file location
-        load_dotenv("../env/.env")
-        self.connection = psycopg2.connect(os.environ['DATABASE_URL'])
+        load_dotenv(db_url)
+        print(f"{db_url}")
+        self.connection = psycopg2.connect(db_url)
         self.get_min_max_cid()
         logging.info(f"Min CID - Max CID: {self.min_cid} - {self.max_cid}")
 
@@ -125,22 +129,6 @@ class PubchemScreeningDAO:
                 except Exception as e:
                     logging.error("An exception occurred: " + str(e))
         return False  # Return False if no successful insertion or if an exception occurs    
-
-    def update(self, cid, smiles, molecular_weight, average_distance):
-        with self.connection:
-            with self.connection.cursor() as cursor:
-                try:
-                    cursor.execute(self.UPDATE_COMPOUND, (int(cid), str(smiles), float(molecular_weight), float(average_distance)))
-                    return True
-                except psycopg2.Error as error:
-                    if 'duplicate key value violates unique constraint' in str(error):
-                        logging.error(f"Skipping data with cid={cid} due to unique constraint violation.")
-                    else:
-                        logging.error(str(error))
-                        raise
-                except Exception as e:
-                    logging.error("An exception occurred: " + str(e))
-        return False  # Return False if no successful insertion or if an exception occurs
     
     def update(self, cid, smiles, molecular_weight, average_distance):
         try:
@@ -201,10 +189,6 @@ class PubchemScreeningDAO:
                 cursor.execute(self.SELECT_NUMBERS_OF_ROWS)
                 nor = cursor.fetchall()
                 return nor
-    
-    def create_connection(self):
-        load_dotenv("../env/.env")
-        self.connection = psycopg2.connect(os.environ['DATABASE_URL'])
 
     def close_connection(self):
         self.connection.close()
@@ -228,7 +212,6 @@ def morgan_fpts(data):
     return np.array(Morgan_fpts)
 
 def import_train_fpts():
-    train_test_path = "../../data_for_modeling/train_test_data/v3/HDAC2_unclean_data_logistic_regression.xlsx"
     train_dataset = pd.read_excel(train_test_path, sheet_name='train_dataset')
     print("Train data imported:")
     print(len(train_dataset))
@@ -240,8 +223,8 @@ def cal_tc(array1, array2):
         raise ValueError("The arrays must have the same length.")
     
     # Calculate the Tanimoto coefficient
-    intersection = sum(a and b for a, b in zip(array1, array2))
-    union = sum(a or b for a, b in zip(array1, array2))
+    intersection = np.sum(a and b for a, b in zip(array1, array2))
+    union = np.sum(a or b for a, b in zip(array1, array2))
     
     if union == 0:  # Handle the case when both arrays are all zeros
         return 0.0
@@ -318,12 +301,17 @@ def find_nearest_neighbors_distance(X_Screening, n_neighbors, X_Train):
 
     return nearest_neighbors_distances, nearest_neighbors_indices
 
-def update_average_distance(screening_dao, n_neighbors, start_cid, end_cid, X_Train):
+def update_average_distance(n_neighbors, start_cid, end_cid, X_Train, screening_dao:PubchemScreeningDAO):
     logging.info(f"[+] Update average distance for: {start_cid} to {end_cid}")
     working_dataset = screening_dao.get_data_between_cid(start_cid, end_cid)
+    if(working_dataset is None):
+        logging.info("[-] Working dataset is None!")
+        print("[-] Empty data, skip this batch!")
+        return
+    
     if(len(working_dataset) > 0):
         X_Screening = morgan_fpts(working_dataset['smiles'])
-        logging.info(f"[-] Start finding nearest neighbor for: {len(X_Screening)}")
+        logging.info(f"[-] Start finding nearest ne  ighbor for: {len(X_Screening)}")
         #Find nearest neighbor
         dist_array, nn_idx = find_nearest_neighbors_distance(X_Screening=X_Screening, n_neighbors=n_neighbors, X_Train=X_Train)
         #Inserted counts
@@ -347,18 +335,21 @@ def update_average_distance(screening_dao, n_neighbors, start_cid, end_cid, X_Tr
         print("[-] Empty data, skip this batch!")
 
 def main():
+    load_dotenv(env_path)
+    db_url = os.getenv("DATABASE_URL")
     #Import the X_Train data
     X_Train = import_train_fpts()
     #Init database dao
-    screening_dao = PubchemScreeningDAO()
+    screening_dao = PubchemScreeningDAO(db_url=db_url)
     #Update the average data
     # Choosing the starting CID to process by min_cid, and the final cid by max_cid.
     # Steps: the number of precessed data for each batch
     # nn_nums: numbers of nearest-neighbors
+    # steps: number of steps per batch
     nn_nums = 5
-    min_cid = 140 * 10 ** 6
-    max_cid = 140 * 10 ** 6+1
-    step = 1
+    min_cid = 60400000
+    max_cid = 10**8
+    step = 20000
     
     cid_range = range(int(min_cid), int(max_cid), step)
     for i in cid_range:
@@ -369,8 +360,8 @@ def main():
         logging.info(f"[+] Starting new update, from {start_cid} to {end_cid}!")
         print(f"[+] Starting new update, from {start_cid} to {end_cid}!")
         update_average_distance(screening_dao=screening_dao, n_neighbors=nn_nums, start_cid=start_cid, end_cid=end_cid, X_Train=X_Train)
-        print("[+] Finished, sleep 5s to regulate then continue!")
-        time.sleep(5)
+        print("[+] Finished, sleep 1s to regulate then continue!")
+        time.sleep(1)
 
     #Close database connection
     screening_dao.close_connection()
