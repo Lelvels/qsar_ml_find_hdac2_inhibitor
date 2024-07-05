@@ -6,6 +6,9 @@ by Dao Quang Tung, Do Thi Mai Dung, Nguyen Thanh Cong, Dao Ngoc Nam Hai, Daniel 
 
 This repository is the prove of our paper, which has been submitted for publication in Link.
 
+### Model data
+Please use the data in https://github.com/Lelvels/qsar_ml_find_hdac2_inhibitor/blob/main/data_for_modeling/train_test_data/HDAC2_train_test_data_final.xlsx
+
 ### Dependencies and implementation
 
 You will need a working Python environment to run the code. The recommended way to set up your environment is through the [Anaconda Python distribution](https://www.anaconda.com/download/) which provides the `conda` package manager. Anaconda can be installed in your user directory and does not interfere with the system Python installation. The required dependencies are specified in the file `*.yml` in the `env` folder. We recommened to run the command below in Linux operating system terminal.
