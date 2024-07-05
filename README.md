@@ -7,7 +7,7 @@ by Dao Quang Tung, Do Thi Mai Dung, Nguyen Thanh Cong, Dao Ngoc Nam Hai, Daniel 
 This repository is the prove of our paper, which has been submitted for publication in Link.
 
 ### Model data
-Please use the data in https://github.com/Lelvels/qsar_ml_find_hdac2_inhibitor/blob/main/data_for_modeling/train_test_data/HDAC2_train_test_data_final.xlsx
+Please use the data in https://github.com/Lelvels/qsar_ml_find_hdac2_inhibitor/blob/main/data_for_modeling/train_test_data/HDAC2_train_test_data_final.xlsx if you need further test
 
 ### Dependencies and implementation
 
