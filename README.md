@@ -4,7 +4,8 @@ by Dao Quang Tung, Do Thi Mai Dung, Nguyen Thanh Cong, Dao Ngoc Nam Hai, Daniel 
 
 *Correspondence: [ngocan@vnu.edu.vn](mailto:ngocan@vnu.edu.vn) (N.N.A)
 
-This repository is the prove of our paper, which has been submitted for publication in Link.
+This repository is the prove of our paper, which has been submitted for publication to ChemSelect.
+DOI: https://doi.org/10.1002/slct.202400404
 
 ### Model data
 Please use the data in https://github.com/Lelvels/qsar_ml_find_hdac2_inhibitor/blob/main/data_for_modeling/train_test_data/HDAC2_train_test_data_final.xlsx if you need further test
